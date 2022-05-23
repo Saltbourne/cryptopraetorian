@@ -31,7 +31,6 @@ def solve(n, guess):
 	url = base.format("challenge/{}/".format(n))
 	data = {"guess": guess}
 	resp = requests.post(url, headers=token(email), data=data)
-	print(resp.json())
 	resp.close()
 	if resp.status_code != 200:
 		raise Exception(resp.json()['detail'])
@@ -52,17 +51,14 @@ def rot3_decode(guess):
 	return s
 
 # Fetch level 0
-level = 4
+level = 1
 hashes = {}
 data = fetch(level)
 
 # Level 0 is a freebie and gives you the password
 guess = data['challenge']
-print(guess)
-getthis = input("WHAT IS IT DECODED")
-#decoded = rot3_decode(guess)
-#print(decoded)
-h = solve(level, getthis)
+decoded = rot3_decode(guess)
+h = solve(level, decoded)
 
 # If we obtained a hash add it to the dict
 if 'hash' in h: hashes[level] = h['hash']
